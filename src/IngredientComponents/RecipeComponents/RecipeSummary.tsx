@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     padding: "1rem",
   },
   nameTitle: {
-    fontWeight: 500,
+    fontWeight: "bold",
     fontSize: "1.25rem",
   },
   listItem: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 const RecipeSummary: React.FC<RecipeSummaryProps> = (props) => {
-  const { name, time, descList, steps } = props;
+  const { name, time, extra, descList, steps } = props;
   const classes = useStyles();
   const [isHidden, setHidden] = useState(true);
 
@@ -39,6 +39,9 @@ const RecipeSummary: React.FC<RecipeSummaryProps> = (props) => {
     >
       <Typography className={classes.nameTitle}>{name}</Typography>
       <Typography> Time: {time} minutes</Typography>
+      <Typography>
+        <i> Extra Ingredients:</i> {extra}
+      </Typography>
       <Paper
         elevation={3}
         className={classes.descPaper}
@@ -63,6 +66,7 @@ const RecipeSummary: React.FC<RecipeSummaryProps> = (props) => {
 interface RecipeSummaryProps {
   name: String;
   time: number;
+  extra: String;
   descList: any;
   steps: any;
 }

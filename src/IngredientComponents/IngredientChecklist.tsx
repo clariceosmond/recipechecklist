@@ -1,9 +1,10 @@
 import * as React from "react";
-import { IngredientMap, IngredientData, RecipeData } from "./IngredientData";
+import { IngredientMap, IngredientData } from "./IngredientData";
+import { RecipeData } from "./RecipeData";
 import IngredientElement from "./IngredientElement";
 import { useEffect, useState } from "react";
 import RecipeSummary from "./RecipeComponents/RecipeSummary";
-import { makeStyles, Grid } from "@material-ui/core";
+import { makeStyles, Grid, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   mainGrid: {
@@ -12,10 +13,19 @@ const useStyles = makeStyles({
   recipeGrid: {
     marginTop: "1rem",
   },
+  isAllCheck: {
+    fontSize: "1.25rem",
+    marginBottom: "1rem",
+  },
+  whatDo: {
+    fontWeight: "bold",
+    fontSize: "1.25rem",
+  },
 });
 
 const IngredientChecklist: React.FC = () => {
   const classes = useStyles();
+  const [isAll, setIsAll] = useState(false);
   const [ingMap, setIngMap] = useState(
     Array(IngredientData.length).fill(false)
   );
@@ -23,7 +33,7 @@ const IngredientChecklist: React.FC = () => {
   const [eligibleRecipes, setEligibleRecipes] = useState(
     RecipeData.filter((el) => {
       for (const ing in el.list) {
-        if (!ingMap[IngredientMap.get(ing) as number]) return false;
+        if (!isAll && !ingMap[IngredientMap.get(ing) as number]) return false;
       }
       return true;
     })
@@ -33,12 +43,12 @@ const IngredientChecklist: React.FC = () => {
     setEligibleRecipes(
       RecipeData.filter((recipe) => {
         for (const ing of recipe.list) {
-          if (!ingMap[IngredientMap.get(ing) as number]) return false;
+          if (!isAll && !ingMap[IngredientMap.get(ing) as number]) return false;
         }
         return true;
       })
     );
-  }, [ingMap]);
+  }, [ingMap, isAll]);
   return (
     <Grid
       container
@@ -47,7 +57,16 @@ const IngredientChecklist: React.FC = () => {
       justifyContent="center"
       className={classes.mainGrid}
     >
-      What Do You Have?
+      <Typography className={classes.isAllCheck}>
+        <input
+          type="checkbox"
+          onChange={() => {
+            setIsAll(!isAll);
+          }}
+        />
+        All Recipes
+      </Typography>
+      <Typography className={classes.whatDo}>What Do You Have? </Typography>
       <Grid direction="column">
         {IngredientData.map((el: string) => {
           return (
@@ -75,6 +94,7 @@ const IngredientChecklist: React.FC = () => {
             <RecipeSummary
               name={el.name}
               time={el.time}
+              extra={el.extra}
               descList={el.descList}
               steps={el.steps}
             />
