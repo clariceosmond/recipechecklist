@@ -8,6 +8,8 @@ export const IngredientMap = new Map([
   ["Shallot", 6],
   ["Rice Wine Vinegar", 7],
   ["Sesame Oil", 8],
+  ["Ginger", 9],
+  ["Spring Onion", 10],
 ]);
 
 // export const ExtraMap: Map<string, boolean> = new Map([
@@ -32,4 +34,6 @@ export const IngredientData = [
   "Shallot",
   "Rice Wine Vinegar",
   "Sesame Oil",
+  "Ginger",
+  "Spring Onion",
 ];
